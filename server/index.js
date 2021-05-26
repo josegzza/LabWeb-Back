@@ -1,17 +1,14 @@
+require('dotenv').config()
+
 const express = require('express');
 const app = express();
-const cors = require('cors');
+const bodyParser = require('body-parser');
+const connection = require('./db-connection');
 
-app.use(express.json());
-app.use(cors());
-app.use(express.urlencoded({
-  extended: true,
-}));
 
-require('./config/config');
+
 //configuracion global de rutas
 // app.use(require('./routes/main'));
-const path = require('path')
 
 // //mysql connection
 // var mysql = require('mysql');
@@ -29,18 +26,18 @@ app.get('/', function (req, res) {
   res.send("Welcome to my api!")
 })
 
-// app.get('/register', function (req, res) {
-// res.sendFile(path.resolve(__dirname, '../client/register.html'));
-// })
+// app.route('/db')
+//   .get(function(req, res, next) {
+//     connection.query(
+//       "SELECT * FROM `books` WHERE userId = ? LIMIT 3", req.params.userId,
+//       function(error, results, fields) {
+//         if (error) throw error;
+//         res.json(results);
+//       }
+//     );
+//   });
 
 
-// connection.connect(error => {
-//   if(error) throw error;
-//   console.log('Database server running!');
-// });
-
-// connection.end();
-
-app.listen(process.env.PORT, ()=> {
-  console.log("Listening in port 3000.");
-});
+// Port 8080 for Google App Engine
+app.set('port', process.env.PORT || 3000);
+app.listen(3000);

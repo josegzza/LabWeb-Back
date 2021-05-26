@@ -1,14 +1,34 @@
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-    host : 'localhost',
-    user : 'me',
-    password : 'secret',
-    database = 'my_db'
+const mysql = require('mysql');
+require('dotenv').config()
+// Database Connection for Production
+
+// let config = {
+//     user: process.env.SQL_USER,
+//     database: process.env.SQL_DATABASE,
+//     password: process.env.SQL_PASSWORD,
+// }
+
+// if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {
+//   config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
+// }
+
+// let connection = mysql.createConnection(config);
+
+// Database Connection for Development
+
+let connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASS
 });
 
-connection.connect(error => {
-    if(error) throw error;
-    console.log('Database server running!');
-});
+  connection.connect(function(err) {
+    if (err) {
+      console.error('Error connecting: ' + err.stack);
+      return;
+    }
+    console.log('Connected as thread id: ' + connection.threadId);
+  });
 
-connection.end();
+  module.exports = connection;
