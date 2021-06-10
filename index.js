@@ -55,6 +55,14 @@ app.get('/', function (req, res) {
 
 app.get('/departamento', function (req,res){
   const sql = 'SELECT * FROM departamento';
+  connection.query(sql, (error, results) => {
+    if (error) throw error;
+    if (results.length > 0) {
+      res.json(results);
+    } else {
+      res.send('Not result');
+    }
+  });
 });
 
 
