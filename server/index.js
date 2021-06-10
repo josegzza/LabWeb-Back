@@ -24,18 +24,12 @@ app.listen(port, () => {
 });
 
 //Routes
-app.get('/',homePageController);
-app.get("/:breed",async(req,res) => {
-  const query = "SELECT * FROM breeds WHERE name = ?";
-  connection.query(query, [req.params.breed], (error,results) => {
-    if(!results[0]){
-      res.json({status : "Not found!"});
-    } else {
-      res.json(results[0]);
-    }
-  });
-});
+//app.get('/',homePageController);
 
+app.get('/', function (req, res) {
+  //res.sendFile(path.resolve(__dirname, '../client/login.html'));
+  res.send("Welcome to my api!")
+});
 
 
 
