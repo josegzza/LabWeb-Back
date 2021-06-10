@@ -4,18 +4,18 @@ const express = require('express');
 const app = new express();
 const mysql = require("mysql");
 const bodyParser = require('body-parser');
-//const connection = require('./db-connection');
+const connection = require('./db-connection');
 app.use(express.json());
 
 //Controllers
-const homePageController = require('./controllers/homePage')
-const createEquipoController = require('./controllers/createEquipo')
-const createPrestamoController = require('./controllers/createPrestamo')
-const createResponsivaController = require('./controllers/createResponsiva')
-const createUserController = require('./controllers/createUser')
-const deleteEquipoController = require('./controllers/deleteEquipo')
-const deletePrestamoController = require('./controllers/deletePrestamo')
-const deleteResponsivaController = require('./controllers/deleteResponsiva')
+const homePageController = require('./server/controllers/homePage')
+const createEquipoController = require('./server/controllers/createEquipo')
+const createPrestamoController = require('./server/controllers/createPrestamo')
+const createResponsivaController = require('./server/controllers/createResponsiva')
+const createUserController = require('./server/controllers/createUser')
+const deleteEquipoController = require('./server/controllers/deleteEquipo')
+const deletePrestamoController = require('./server/controllers/deletePrestamo')
+const deleteResponsivaController = require('./server/controllers/deleteResponsiva')
 
 // Port 8080 for Google App Engine
 const port = process.env.PORT || 3050;
