@@ -4,7 +4,7 @@ const express = require('express');
 const app = new express();
 const mysql = require("mysql");
 const bodyParser = require('body-parser');
-const connection = require('./db-connection');
+//const connection = require('./db-connection');
 
 app.use(express.json());
 
