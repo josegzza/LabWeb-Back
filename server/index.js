@@ -5,7 +5,6 @@ const app = new express();
 const mysql = require("mysql");
 const bodyParser = require('body-parser');
 //const connection = require('./db-connection');
-
 app.use(express.json());
 
 //Controllers
@@ -19,7 +18,7 @@ const deletePrestamoController = require('./controllers/deletePrestamo')
 const deleteResponsivaController = require('./controllers/deleteResponsiva')
 
 // Port 8080 for Google App Engine
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3050;
 app.listen(port, () => {
   console.log(`TCA DB API listening on port ${port}`);
 });

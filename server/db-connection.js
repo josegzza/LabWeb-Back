@@ -2,26 +2,18 @@ const mysql = require('mysql');
 require('dotenv').config()
 // Database Connection for Production
 
-// let config = {
-//     user: process.env.SQL_USER,
-//     database: process.env.SQL_DATABASE,
-//     password: process.env.SQL_PASSWORD,
-// }
-
-// if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {
-//   config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
-// }
-
-// let connection = mysql.createConnection(config);
-
 // Database Connection for Development
 
 const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASS,
+  host: 'us-cdbr-east-04.cleardb.com',
+  user: 'b6bb37f77836e0',
+  database: 'heroku_c7c3eb92efb0828',
+  //database: process.env.DB_DATABASE,
+  password: 'a52a42ae',
 });
+
+// b6bb37f77836e0:a52a42ae@us-cdbr-east-04.cleardb.com/heroku_c7c3eb92efb0828
+
 
   connection.connect(function(err) {
     if (err) {
