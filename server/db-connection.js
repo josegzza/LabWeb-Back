@@ -1,19 +1,12 @@
 const mysql = require('mysql');
 require('dotenv').config()
-// Database Connection for Production
 
-// Database Connection for Development
-
-const connection = mysql.createConnection({
-  host: 'us-cdbr-east-04.cleardb.com',
-  user: 'b6bb37f77836e0',
-  database: 'heroku_c7c3eb92efb0828',
-  password: 'a52a42ae',
+let connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASS,
 });
-
-//database: process.env.DB_DATABASE,
-// b6bb37f77836e0:a52a42ae@us-cdbr-east-04.cleardb.com/heroku_c7c3eb92efb0828
-
 
   connection.connect(function(err) {
     if (err) {
