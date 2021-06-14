@@ -10,9 +10,9 @@ const cors = require('cors');
 // app.use(require('./routes/main'));
 
 //Routes
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, './client/public', 'index.html'));
-});
+//app.get('*', function(req, res) {
+//  res.sendFile(path.join(__dirname, './client/public', 'index.html'));
+//});
 
 app.get('/', function (req, res) {
   // res.sendFile(path.resolve(__dirname, '../client/login.html'));
@@ -38,3 +38,8 @@ app.use(cors(corsOptions))
 // Port 8080 for Google App Engine
 app.set('port', process.env.PORT || 8000);
 app.listen(8000);
+
+//Queries to server
+setInterval(function () {
+  connection.query('SELECT 1');
+}, 5000);
