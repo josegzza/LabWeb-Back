@@ -20,6 +20,7 @@ const Login = () => {
 
   const onFinish = (values) => {
     if (values.username == 'luis_miranda' && values.password == '123456')
+      console.log('success')
       history.push("/users")
   };
 
