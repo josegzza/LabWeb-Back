@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const connection = require('./server/db-connection');
+const cors = require('cors');
 
 //configuracion global de rutas
 // app.use(require('./routes/main'));
