@@ -5,8 +5,8 @@ const expressSession = require('express-session');
 const app = express();
 const bodyParser = require('body-parser');
 const connection = require('./server/db-connection');
-const {Sequelize, DataTypes} = require('sequelize')
-const sequelize = new Sequelize("mysql::memory:");
+// const {Sequelize, DataTypes} = require('sequelize')
+// const sequelize = new Sequelize("mysql::memory:");
 const cors = require('cors');
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -45,9 +45,80 @@ app.post('/login', function(req, res) {
 	}
 });
 
-
+//---------------------------Departamento------------------------------------
+//Select all
 app.get('/departamento', function (req,res){
   const sql = 'SELECT * FROM departamento';
+  connection.query(sql, (error, results) => {
+    if (error) throw error;
+    if (results.length > 0) {
+      res.json(results);
+    } else {
+      res.send('Not result');
+    }
+  });
+});
+
+//departamento by id
+app.get('/departamento_id/:dept_id', function (req,res){
+  let dept_id = req.params.dept_id;
+  connection.query('SELECT * FROM departamento WHERE dpto_id = ?', dept_id, (error, result) =>{
+    if (error) throw error;
+    if (result.length > 0) {
+      res.json(result);
+    } else {
+      res.send('Not result');
+    }
+  });
+});
+
+
+//---------------------------Responsiva------------------------------------
+//responsiva por colab_id
+app.get('/responsiva_colab/:colab_id', function (req,res){
+  let colab_id = req.params.colab_id;
+  //Safe way
+  connection.query('SELECT * FROM responsiva WHERE colab_id = ?', colab_id, (error, result) => {
+    if (error) throw error;
+    if (result.length > 0) {
+      res.json(result);
+    } else {
+      res.send('Not result');
+    }
+  });
+});
+
+//responsiva por rps_id
+app.get('/responsiva/:rps_id', function (req,res){
+  let rps_id = req.params.rps_id;
+  //Safe way
+  connection.query('SELECT * FROM responsiva WHERE rps_id = ?', rps_id, (error, result) => {
+    if (error) throw error;
+    if (result.length > 0) {
+      res.json(result);
+    } else {
+      res.send('Not result');
+    }
+  });
+});
+
+//----------------------colaborador----------------------
+//query chido
+app.get('/colaborador/:colab_id', function (req,res){
+  let colab_id = req.params.colab_id
+  //Safe way
+  connection.query('SELECT * FROM colaborador C LEFT JOIN responsiva R ON C.colab_id = R.colab_id LEFT JOIN departamento d on C.dpto_id = d.dpto_id LEFT JOIN prestamo p on R.rps_id = p.rps_id LEFT JOIN equipo e on p.eq_id = e.eq_id LEFT JOIN foto f on e.eq_id = f.eq_id LEFT JOIN sede s on C.sede_id = s.sede_id WHERE C.colab_id= ?;', colab_id, (error, result) => {
+    if (error) throw error;
+    if (result.length > 0) {
+      res.json(result);
+    } else {
+      res.send('Not result');
+    }
+  });
+});
+
+app.get('/colaborador/', function (req,res){
+  const sql = 'SELECT * FROM colaborador';
   connection.query(sql, (error, results) => {
     if (error) throw error;
     if (results.length > 0) {
