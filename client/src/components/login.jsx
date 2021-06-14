@@ -1,5 +1,12 @@
 import { Form, Input, Button, Checkbox, Grid, Row, Col, Layout } from 'antd';
+import { useHistory } from 'react-router-dom'
+import axios from 'axios'
+import { useEffect } from 'react';
+import UserTable from './UsersDashboard/UserTable';
 const { Header, Content, Footer, Sider } = Layout
+const config = {
+  apiUrl: 'http://localhost:8000'
+};
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 12 },
@@ -8,10 +15,17 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-const login = () => {
+const Login = () => {
+  let history = useHistory();
+
   const onFinish = (values) => {
-    console.log('Success:', values);
+    if (values.username == 'luis_miranda' && values.password == '123456')
+      history.push("/users")
   };
+
+  function handleClick() {
+    
+  }
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -79,4 +93,4 @@ const login = () => {
     );
 };
 
-export default login;
+export default Login;
