@@ -1,6 +1,7 @@
 require('dotenv').config()
 
 const express = require('express');
+const expressSession = require('express-session'); 
 const app = express();
 const bodyParser = require('body-parser');
 const connection = require('./server/db-connection');
@@ -8,20 +9,42 @@ const {Sequelize, DataTypes} = require('sequelize')
 const sequelize = new Sequelize("mysql::memory:");
 const cors = require('cors');
 
-//configuracion global de rutas
-// app.use(require('./routes/main'));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.json())
+app.use(expressSession({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
+}));
 
 //Routes
-
-
-
-
 app.get('/', function (req, res) {
   // res.sendFile(path.resolve(__dirname, '../client/login.html'));
   res.send("Welcome to my api!")
 })
 
 
+// Check if user exists in DB
+app.post('/login', function(req, res) {
+	var username = req.body.username;
+	var password = req.body.password;
+	if (username && password) {
+		connection.query('SELECT * FROM colaborador WHERE colab_pseudo = ? AND password = ?', [username, password], function(error, results, fields) {
+			if (results.length > 0) {
+        req.session.username = username;
+        res.send('Usuario encontrado');
+				//res.redirect('/user');
+			} else {
+				res.send('Usuario y/o contraseña incorrectas!');
+			}			
+			res.end();
+		});
+	} else {
+		res.send('Porfavor ingresa usuario y contraseña!');
+		res.end();
+	}
+});
+
 
 app.get('/departamento', function (req,res){
   const sql = 'SELECT * FROM departamento';
@@ -35,43 +58,6 @@ app.get('/departamento', function (req,res){
   });
 });
 
-app.get('/departamento/:id', function (req,res){
-  const sql = `SELECT dpto_nombre FROM departamento WHERE dpto_id = ${id}`;
-  connection.query(sql, (error
-    , results) => {
-    if (error) throw error;
-    if (results.length > 0) {
-      res.json(results);
-    } else {
-      res.send('Not result');
-    }
-  });
-});
-
-
-app.get('/responsiba/:id', function (req,res){
-  const sql = 'SELECT * FROM responsiva WHERE colab_id IS EQUAL';
-  connection.query(sql, (error, results) => {
-    if (error) throw error;
-    if (results.length > 0) {
-      res.json(results);
-    } else {
-      res.send('Not result');
-    }
-  });
-});
-
-app.get('/departamento', function (req,res){
-  const sql = 'SELECT * FROM departamento';
-  connection.query(sql, (error, results) => {
-    if (error) throw error;
-    if (results.length > 0) {
-      res.json(results);
-    } else {
-      res.send('Not result');
-    }
-  });
-});
 
 
 // ** MIDDLEWARE ** //
@@ -90,7 +76,7 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 
-// Port 8080 for Google App Engine
+// Port 8000 for Heroku App Engine
 app.set('port', process.env.PORT || 8000);
 app.listen(8000);
 
